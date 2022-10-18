@@ -1,11 +1,13 @@
+var data = {"row":5,"cell":5,"matrix":"0010001100001000010001110"};
+
 var matrix;
 
 const create = document.getElementById("create_button");
 const save = document.getElementById("save_button");
-
-create.addEventListener('click',() =>create_table());
+const load = document.getElementById("load_button");
+create.addEventListener('click',() => create_table());
 save.addEventListener('click',() => save_value());
-
+load.addEventListener('click',() => init());
 
 const create_table = () => {
 
@@ -14,7 +16,6 @@ const create_table = () => {
   const l = parseInt(document.getElementById("column").value);
   
   matrix = make_matrix(r,l);
-  console.log(matrix);
 
   const table = document.querySelector("table");
   for(var x=0;x<r;x++){
@@ -32,7 +33,6 @@ const change_data = (idx) => {
   if(matrix[row][cell] == 0 ) matrix[row][cell] = 1;
   else if (matrix[row][cell] == 1) matrix[row][cell] = 0;
   else console.log(err);
-  console.log(matrix);
 }
 const make_matrix = (row,cell) => {
   var matrix = new Array(row);
@@ -84,5 +84,46 @@ const save_value = () => {
     newArr.push(innerValue);
   }
   var value = newArr.join('');
-  console.log(value);
+  console.log(`row : ${row}, cell : ${cell}, data : ${value}`);
 }
+
+const init = () => {
+
+  loadData();
+};
+
+const loadData = () => {
+  const row = data.row;
+  const cell = data.cell;
+  const value = data.matrix;
+  var arr = new Array(row);
+  var count = 0;
+  for (var idx = 0 ;idx<arr.length;idx++){
+    var newArr = new Array();
+    for(var inner = 0 ; inner<cell;inner++){
+      const newValue = value.substring(count,count+1);
+      newArr.push(newValue);
+      count++
+      
+    }
+    arr[idx] = newArr;
+  }
+  matrix = arr;
+  create_table_two(row,cell,matrix);
+}
+
+const create_table_two = (r,l) => {
+
+  remove_child("table");
+  const table = document.querySelector("table");
+  for(var x=0;x<r;x++){
+    const newRow = table.insertRow();
+      for(var y=0;y<l;y++){
+        const newCell = newRow.insertCell(y);
+        if(matrix[x][y]==1)newCell.style.backgroundColor="black";
+        else newCell.style.backgroundColor="white";
+        
+        newCell.addEventListener('click',(e) => excute_event(e.target,newRow));
+      }
+  }
+};
