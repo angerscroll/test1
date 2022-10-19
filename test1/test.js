@@ -1,14 +1,20 @@
+//test data
 var data = {"row":5,"cell":5,"matrix":"0010001100001000010001110"};
 
+//matrix
 var matrix;
 
+//button
 const create = document.getElementById("create_button");
 const save = document.getElementById("save_button");
 const load = document.getElementById("load_button");
+
+//button handling
 create.addEventListener('click',() => create_table());
 save.addEventListener('click',() => save_value());
 load.addEventListener('click',() => init());
 
+//create table
 const create_table = () => {
 
   remove_child("table");
@@ -27,6 +33,7 @@ const create_table = () => {
   }
 };
 
+//change data
 const change_data = (idx) => {
   const row = idx[0];
   const cell =idx[1];
@@ -34,6 +41,8 @@ const change_data = (idx) => {
   else if (matrix[row][cell] == 1) matrix[row][cell] = 0;
   else console.log(err);
 }
+
+//create matrix data
 const make_matrix = (row,cell) => {
   var matrix = new Array(row);
   matrix.fill(0);
@@ -87,6 +96,7 @@ const save_value = () => {
   console.log(`row : ${row}, cell : ${cell}, data : ${value}`);
 }
 
+//init test
 const init = () => {
 
   loadData();
